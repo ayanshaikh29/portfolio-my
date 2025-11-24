@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Ayan Shaikh | Data Scientist & AI/ML Engineer</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"/>
+  <style>
+    :root {
+      --bg: #0f172a;
+      --card: rgba(30, 41, 59, 0.95);
+      --text: #e2e8f0;
+      --accent: #3b82f6;
+      --accent-light: #60a5fa;
+      --gray: #94a3b8;
+      --border: rgba(59, 130, 246, 0.3);
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    /* Animated Background */
+    #bg-canvas {
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;
+      background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+    }
+
+    .container {
+      max-width: 1200px; margin: 0 auto; padding: 2rem;
+      display: grid; grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+
+    @media (min-width: 768px) {
+      .container { grid-template-columns: 350px 1fr; gap: 3rem; padding: 3rem; }
+    }
+
+    /* Sidebar */
+    aside {
+      background: rgba(15, 23, 42, 0.98);
+      backdrop-filter: blur(12px);
+      border-radius: 20px;
+      padding: 2.5rem;
+      text-align: center;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+      position: sticky; top: 20px; height: fit-content;
+    }
+
+    .profile-img {
+      width: 180px; height: 180px; border-radius: 50%;
+      object-fit: cover; border: 6px solid var(--accent);
+      box-shadow: 0 0 40px rgba(59,130,246,0.6);
+      transition: all 0.4s;
+    }
+    .profile-img:hover { transform: scale(1.05); }
+
+    .contact-info h1 {
+      font-size: 2.4rem; margin: 1.5rem 0 0.5rem; color: white;
+    }
+    .contact-info p {
+      color: var(--gray); margin: 0.5rem 0;
+    }
+    .contact-info a {
+      color: var(--text); text-decoration: none; display: block; margin: 0.8rem 0;
+      transition: color 0.3s;
+    }
+    .contact-info a:hover { color: var(--accent-light); }
+
+    .social-links {
+      margin-top: 1.5rem; display: flex; justify-content: center; gap: 1.5rem;
+    }
+    .social-links a {
+      color: var(--accent); font-size: 1.8rem; transition: all 0.3s;
+    }
+    .social-links a:hover { color: white; transform: translateY(-5px); }
+
+    /* Main Content */
+    main {
+      display: flex; flex-direction: column; gap: 2.5rem;
+    }
+
+    .section {
+      background: var(--card);
+      padding: 2rem;
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+      opacity: 0; transform: translateY(40px);
+      transition: all 0.8s ease;
+    }
+    .section.visible { opacity: 1; transform: translateY(0); }
+
+    h2 {
+      font-size: 1.8rem; color: var(--accent); margin-bottom: 1.5rem;
+      padding-bottom: 0.8rem; border-bottom: 3px solid var(--accent);
+      display: inline-block;
+    }
+
+    .timeline {
+      position: relative; padding-left: 2rem;
+    }
+    .timeline-item {
+      position: relative; margin-bottom: 2rem; padding-left: 1.5rem;
+    }
+    .timeline-item::before {
+      content: ''; position: absolute; left: 0; top: 8px;
+      width: 12px; height: 12px; background: var(--accent);
+      border-radius: 50%; box-shadow: 0 0 20px var(--accent-light);
+    }
+    .timeline-item::after {
+      content: ''; position: absolute; left: 5.5px; top: 20px; bottom: -2rem;
+      width: 2px; background: var(--border);
+    }
+    .timeline-item:last-child::after { display: none; }
+
+    .date {
+      color: var(--accent-light); font-weight: bold; font-size: 0.95rem;
+      display: block; margin-bottom: 0.5rem;
+    }
+
+    /* Skills Grid */
+    .skills-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.5rem; margin-top: 1.5rem;
+    }
+    .skill-item {
+      display: flex; justify-content: space-between; align-items: center;
+      background: rgba(15,23,42,0.6); padding: 1rem; border-radius: 12px;
+    }
+    .skill-name { font-weight: 600; }
+    .dots { display: flex; gap: 6px; }
+    .dot { width: 10px; height: 10px; border-radius: 50%; background: var(--gray); }
+    .dot.filled { background: var(--accent); box-shadow: 0 0 15px var(--accent-light); }
+
+    /* Certificates */
+    .certificates {
+      display: grid; grid-template-columns: 1fr; gap: 1.5rem;
+    }
+    @media (min-width: 640px) {
+      .certificates { grid-template-columns: 1fr 1fr; }
+    }
+
+    /* Contact Form */
+    .contact-form input, .contact-form textarea {
+      width: 100%; padding: 1rem; margin-bottom: 1rem;
+      background: rgba(15,23,42,0.8); border: 1px solid var(--border);
+      border-radius: 10px; color: white; font-size: 1rem;
+    }
+    .contact-form button {
+      background: var(--accent); color: white; padding: 1rem 2.5rem;
+      border: none; border-radius: 10px; font-weight: bold; cursor: pointer;
+      transition: all 0.3s;
+    }
+    .contact-form button:hover {
+      background: white; color: var(--accent); transform: translateY(-3px);
+    }
+
+    footer {
+      text-align: center; padding: 3rem; color: var(--gray); font-size: 0.9rem;
+      margin-top: 3rem;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Animated Background -->
+  <canvas id="bg-canvas"></canvas>
+
+  <div class="container">
+    <!-- Sidebar -->
+    <aside>
+      <img src="profile.jpeg" alt="Ayan Shaikh" class="profile-img">
+      <div class="contact-info">
+        <h1>Ayan Shaikh</h1>
+        <p>Data Scientist</p>
+        <a href="mailto:asshaikh7033@gmail.com">asshaikh7033@gmail.com</a>
+        <a href="tel:+917499827349">+91 74998 27349</a>
+        <p>Nashik, India</p>
+        <div class="social-links">
+          <a href="https://linkedin.com/in/ayan-shaikh-5883bb30a" target="_blank">
+            LinkedIn
+          </a>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main>
+      <section class="section">
+        <h2>About Me</h2>
+        <p>Motivated Computer Engineering student skilled in Python, Data Science, and AI/ML. Experienced in building real-time machine learning projects and developing full-stack Flask web applications. Strong in problem-solving, data analysis, model training, and integrating ML models into practical, user-friendly systems. Passionate about learning new technologies and creating impactful solutions.</p>
+      </section>
+
+      <section class="section">
+        <h2>Professional Experience</h2>
+        <div class="timeline">
+          <div class="timeline-item">
+            <span class="date">06/2025 – 08/2025 • Nashik</span>
+            <h3 style="color:var(--accent); margin:0.5rem 0;">Data Science and AI/ML Intern</h3>
+            <p><strong>Sumago Infotech Pvt.Ltd</strong></p>
+            <p style="margin-top:0.5rem; color:#cbd5e1;">Worked on real-time machine learning and data analysis projects. Gained hands-on experience in data cleaning, model building, evaluation, and integrating ML models into Flask web applications. Built projects like fraud detection, weather prediction, and loan eligibility prediction using Python, Pandas, NumPy, Scikit-Learn, and SQL.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <h2>Education</h2>
+        <div class="timeline">
+          <div class="timeline-item">
+            <span class="date">06/2023 – Present • Nashik</span>
+            <h3 style="color:var(--accent);">Diploma in Computer Engineering</h3>
+            <p><strong>Guru Gobind Singh Polytechnic</strong></p>
+            <p>Currently pursuing final year Diploma with focus on programming, data science, web development, operating systems, and software engineering.</p>
+          </div>
+          <div class="timeline-item">
+            <span class="date">06/2022 – 03/2023 • Nashik</span>
+            <h3 style="color:var(--accent);">10th</h3>
+            <p><strong>K.B.H Vidyalaya</strong></p>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <h2>Projects</h2>
+        <div class="timeline">
+          <div class="timeline-item">
+            <span class="date">08/2025</span>
+            <h3 style="color:var(--accent);">Trustify: Fraud Detection Web Application</h3>
+            <p>Trustify is an AI-powered fraud detection system built using Python, Machine Learning, and Flask. It analyzes transaction data in real-time and predicts whether a transaction is fraudulent or not. The system includes an interactive dashboard with charts, a prediction history table, and a clean, animated UI for a modern user experience.</p>
+          </div>
+          <div class="timeline-item">
+            <span class="date">06/2025</span>
+            <h3 style="color:var(--accent);">Campus Choice: College Finder Web Application</h3>
+            <p>CampusChoice is a college finder web application built using HTML, CSS, JavaScript, and Flask. It allows users to search colleges from a CSV dataset, supports login/register, and displays results through a modern, animated, and responsive UI.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <h2>Certificates</h2>
+        <div class="certificates">
+          <div>
+            <h3 style="color:var(--accent);">Data Analysis With Python, IBM</h3>
+            <p>Learned data cleaning, analysis, and visualization using Python, Pandas, NumPy, and Matplotlib through hands-on exercises.</p>
+          </div>
+          <div>
+            <h3 style="color:var(--accent);">Data Analytics Job Simulation, Deloitte</h3>
+            <p>Performed data cleaning, analysis, and insights reporting on real business datasets in a Deloitte-style workflow.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <h2>Skills</h2>
+        <div class="skills-grid">
+          <div class="skill-item">
+            <span class="skill-name">Python</span>
+            <div class="dots">
+              <span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span>
+            </div>
+          </div>
+          <div class="skill-item">
+            <span class="skill-name">Pandas & NumPy</span>
+            <div class="dots">
+              <span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot"></span>
+            </div>
+          </div>
+          <div class="skill-item">
+            <span class="skill-name">Machine Learning</span>
+            <div class="dots">
+              <span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot"></span>
+            </div>
+          </div>
+          <div class="skill-item">
+            <span class="skill-name">Data Visualization</span>
+            <div class="dots">
+              <span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot"></span>
+            </div>
+          </div>
+          <div class="skill-item">
+            <span class="skill-name">SQL (MySQL & SQLite)</span>
+            <div class="dots">
+              <span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot"></span>
+            </div>
+          </div>
+          <div class="skill-item">
+            <span class="skill-name">C & C++</span>
+            <div class="dots">
+              <span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot"></span><span class="dot"></span>
+            </div>
+          </div>
+          <div class="skill-item">
+            <span class="skill-name">Database Handling</span>
+            <div class="dots">
+              <span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot"></span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <h2>Awards</h2>
+        <div class="timeline">
+          <div class="timeline-item">
+            <span class="date">08/2025</span>
+            <h3 style="color:var(--accent);">Campus Contributor Award</h3>
+            <p><strong>Sumago Infotech Pvt.Ltd</strong></p>
+            <p style="color:#cbd5e1;">Actively represented Sumago in my campus by promoting their training programs, guiding students about internship opportunities, and increasing engagement through communication and awareness activities.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <h2>Languages</h2>
+        <div style="display:flex; gap:2rem; flex-wrap:wrap; font-size:1.1rem;">
+          <span>English</span>
+          <span>Hindi</span>
+          <span>Marathi</span>
+        </div>
+      </section>
+
+      <section class="section">
+        <h2>Get In Touch</h2>
+        <form class="contact-form" action="https://formsubmit.co/asshaikh7033@gmail.com" method="POST">
+          <input type="text" name="name" placeholder="Your Name" required>
+          <input type="email" name="email" placeholder="Your Email" required>
+          <textarea name="message" rows="5" placeholder="Your Message" required></textarea>
+          <button type="submit">Send Message</button>
+        </form>
+      </section>
+
+      <footer>
+        © 2025 Ayan Shaikh • Built with passion for AI & Data Science
+      </footer>
+    </main>
+  </div>
+
+  <script>
+    // Animated Background
+    const canvas = document.getElementById('bg-canvas');
+    const ctx = canvas.getContext('2d');
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    const particles = [];
+    for(let i = 0; i < 60; i++) {
+      particles.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        size: Math.random() * 2 + 0.5,
+        speedX: Math.random() * 0.5 - 0.25,
+        speedY: Math.random() * 0.5 - 0.25
+      });
+    }
+
+    function animate() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      particles.forEach(p => {
+        p.x += p.speedX;
+        p.y += p.speedY;
+        if(p.x < 0 || p.x > canvas.width) p.speedX *= -1;
+        if(p.y < 0 || p.y > canvas.height) p.speedY *= -1;
+
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(59, 130, 246, 0.4)';
+        ctx.fill();
+      });
+      requestAnimationFrame(animate);
+    }
+    animate();
+
+    window.addEventListener('resize', () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    });
+
+    // Scroll Animations
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.section').forEach(section => {
+      observer.observe(section);
+    });
+  </script>
+</body>
+</html>

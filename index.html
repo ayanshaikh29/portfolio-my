@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AS Edits | Professional CapCut Pro Video Editor</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Montserrat:wght@600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        /* Reset & Base */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #0a0a0a;
+            color: #e0e0e0;
+            line-height: 1.7;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Background Gradient Overlay */
+        body::before {
+            content: '';
+           242            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(0, 128, 255, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(0, 128, 255, 0.05) 0%, transparent 50%);
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(10, 10, 10, 0.95);
+            backdrop-filter: blur(12px);
+            z-index: 1000;
+            padding: 1rem 0;
+            border-bottom: 1px solid rgba(0, 128, 255, 0.15);
+        }
+
+        nav .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: #0080ff;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: #e0e0e0;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -6px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #0080ff;
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after,
+        .nav-links a.active::after {
+            width: 100%;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: #0080ff;
+        }
+
+        .mobile-toggle {
+            display: none;
+            color: #fff;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* Hero Section */
+        #hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 5rem 1rem 3rem;
+            position: relative;
+        }
+
+        #hero::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: url('https://images.unsplash.com/photo-1462331940025-496dfbfc7564?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80') center/cover no-repeat;
+            filter: brightness(0.35);
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 800px;
+        }
+
+        .hero-content h1 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: clamp(2.2rem, 6vw, 3.8rem);
+            margin-bottom: 1.2rem;
+            color: #fff;
+            line-height: 1.2;
+        }
+
+        .hero-content p {
+            font-size: 1.15rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        .cta-primary {
+            display: inline-block;
+            padding: 1rem 2.2rem;
+            background: #0080ff;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1.05rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 25px rgba(0, 128, 255, 0.3);
+        }
+
+        .cta-primary:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 30px rgba(0, 128, 255, 0.4);
+            background: #0066cc;
+        }
+
+        /* Section Styling */
+        section {
+            padding: 5rem 0;
+        }
+
+        .section-title {
+            text-align: center;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 2.4rem;
+            margin-bottom: 3.5rem;
+            color: #fff;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 3px;
+            background: #0080ff;
+            border-radius: 2px;
+        }
+
+        /* About Section */
+        #about .about-content {
+            max-width: 900px;
+            margin: 0 auto;
+            font-size: 1.1rem;
+            line-height: 1.8;
+            opacity: 0.92;
+        }
+
+        /* Services Section */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .service-card {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(0, 128, 255, 0.15);
+            border-radius: 16px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.4s ease;
+            backdrop-filter: blur(5px);
+        }
+
+        .service-card:hover {
+            transform: translateY(-10px);
+            border-color: #0080ff;
+            box-shadow: 0 15px 35px rgba(0, 128, 255, 0.15);
+        }
+
+        .service-card i {
+            font-size: 2.5rem;
+            color: #0080ff;
+            margin-bottom: 1.2rem;
+        }
+
+        .service-card h3 {
+            font-size: 1.35rem;
+            margin-bottom: 0.8rem;
+            color: #fff;
+        }
+
+        /* Portfolio Section */
+        .portfolio-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .portfolio-item {
+            position: relative;
+            border-radius: 16px;
+            overflow: hidden;
+            background: #111;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+            transition: all 0.4s ease;
+        }
+
+        .portfolio-item:hover {
+            transform: scale(1.03);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        .video-container {
+            position: relative;
+            width: 100%;
+            height: 0;
+            padding-bottom: 177.78%; /* 9:16 for Instagram Reels */
+            overflow: hidden;
+            background: #000;
+        }
+
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+
+        .portfolio-overlay {
+            padding: 1.5rem;
+            background: linear-gradient(transparent, rgba(0, 0, 0, 0.9));
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            transform: translateY(30%);
+            transition: transform 0.4s ease;
+        }
+
+        .portfolio-item:hover .portfolio-overlay {
+            transform: translateY(0);
+        }
+
+        .portfolio-overlay h3 {
+            color: #fff;
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .portfolio-overlay p {
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+            opacity: 0.9;
+        }
+
+        .portfolio-overlay a {
+            color: #0080ff;
+            font-weight: 600;
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+
+        .portfolio-overlay a:hover {
+            text-decoration: underline;
+        }
+
+        /* Testimonials Section */
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .testimonial-card {
+            background: rgba(255, 255, 255, 0.04);
+            border-left: 4px solid #0080ff;
+            border-radius: 12px;
+            padding: 2rem;
+            font-style: italic;
+            backdrop-filter: blur(5px);
+        }
+
+        .testimonial-card p {
+            margin-bottom: 1.2rem;
+            font-size: 1.05rem;
+        }
+
+        .testimonial-card cite {
+            display: block;
+            font-weight: 600;
+            color: #0080ff;
+            font-style: normal;
+            font-size: 0.95rem;
+        }
+
+        /* Contact Section */
+        #contact {
+            background: rgba(0, 128, 255, 0.06);
+            border-radius: 20px;
+            margin: 3rem 1rem;
+            padding: 3.5rem 2rem;
+        }
+
+        .contact-form {
+            max-width: 700px;
+            margin: 0 auto 2.5rem;
+            display: grid;
+            gap: 1.2rem;
+        }
+
+        .contact-form input,
+        .contact-form textarea {
+            width: 100%;
+            padding: 1rem 1.2rem;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(0, 128, 255, 0.3);
+            border-radius: 10px;
+            color: #e0e0e0;
+            font-size: 1rem;
+            transition: border 0.3s ease;
+        }
+
+        .contact-form input:focus,
+        .contact-form textarea:focus {
+            outline: none;
+            border-color: #0080ff;
+            box-shadow: 0 0 0 3px rgba(0, 128, 255, 0.2);
+        }
+
+        .contact-form textarea {
+            min-height: 140px;
+            resize: vertical;
+        }
+
+        .contact-form button {
+            padding: 1rem 2.5rem;
+            background: #0080ff;
+            color: #fff;
+            border: none;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1.05rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            justify-self: start;
+        }
+
+        .contact-form button:hover {
+            background: #0066cc;
+            transform: translateY(-2px);
+        }
+
+        .contact-links {
+            text-align: center;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 1.5rem;
+        }
+
+        .contact-links a {
+            padding: 0.8rem 1.8rem;
+            background: rgba(0, 128, 255, 0.15);
+            color: #0080ff;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(0, 128, 255, 0.3);
+        }
+
+        .contact-links a:hover {
+            background: #0080ff;
+            color: #fff;
+            transform: translateY(-2px);
+        }
+
+        /* Footer */
+        footer {
+            background: #000;
+            padding: 2.5rem 1rem;
+            text-align: center;
+            border-top: 1px solid rgba(0, 128, 255, 0.15);
+        }
+
+        footer p {
+            margin-bottom: 1rem;
+            font-size: 0.95rem;
+            opacity: 0.8;
+        }
+
+        .social-links a {
+            color: #0080ff;
+            margin: 0 1rem;
+            font-size: 1.3rem;
+            transition: color 0.3s ease;
+        }
+
+        .social-links a:hover {
+            color: #0066cc;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .mobile-toggle { display: block; }
+            .nav-links {
+                position: fixed;
+                top: 100%; left: 0; width: 100%;
+                background: rgba(10, 10, 10, 0.98);
+                flex-direction: column;
+                padding: 1.5rem 0;
+                transform: translateY(-100%);
+                transition: transform 0.4s ease;
+                border-top: 1px solid rgba(0, 128, 255, 0.2);
+            }
+            .nav-links.active { transform: translateY(0); }
+            .nav-links a { padding: 1rem 2rem; display: block; border-bottom: 1px solid rgba(255,255,255,0.05); }
+            .portfolio-grid { grid-template-columns: 1fr; }
+            .video-container { padding-bottom: 177.78%; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation -->
+    <nav>
+        <div class="container nav-content">
+            <a href="#" class="logo">AS Edits</a>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#hero" class="active">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#services">Services</a></li>
+                <li><a href="#portfolio">Portfolio</a></li>
+                <li><a href="#testimonials">Testimonials</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+            <div class="mobile-toggle" id="mobileToggle">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <section id="hero">
+        <div class="hero-content">
+            <h1>Hi, I’m Ayan — Professional CapCut Pro Video Editor</h1>
+            <p>Crafting cinematic stories and viral social media content that stops the scroll and drives results.</p>
+            <a href="#portfolio" class="cta-primary">Explore My Work</a>
+        </div>
+    </section>
+
+    <!-- About -->
+    <section id="about">
+        <div class="container">
+            <h2 class="section-title">About Me</h2>
+            <div class="about-content">
+                <p>As a passionate freelance video editor under <strong>AS Edits</strong>, I transform raw footage into cinematic, aesthetic, and highly engaging content using <strong>CapCut Pro</strong>. Specializing in Instagram Reels, YouTube Shorts, and TikTok, I deliver scroll-stopping edits with professional color grading, beat-sync motion, and brand-aligned storytelling.</p>
+                <p>With a focus on fast delivery, creative excellence, and client satisfaction, I help brands and creators stand out in the crowded digital space.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services -->
+    <section id="services">
+        <div class="container">
+            <h2 class="section-title">Services</h2>
+            <div class="services-grid">
+                <div class="service-card">
+                    <i class="fas fa-film"></i>
+                    <h3>Cinematic Instagram Reels</h3>
+                    <p>Story-driven edits with smooth transitions, cinematic grading, and engaging hooks.</p>
+                </div>
+                <div class="service-card">
+                    <i class="fas fa-play-circle"></i>
+                    <h3>YouTube Shorts Editing</h3>
+                    <p>Fast-paced, retention-optimized shorts with beat-sync and viral potential.</p>
+                </div>
+                <div class="service-card">
+                    <i class="fab fa-tiktok"></i>
+                    <h3>TikTok & Social Clips</h3>
+                    <p>Trend-aware edits with motion graphics and effects built for virality.</p>
+                </div>
+                <div class="service-card">
+                    <i class="fas fa-palette"></i>
+                    <h3>Color Grading & LUTs</h3>
+                    <p>Professional color correction and custom LUTs for consistent brand aesthetics.</p>
+                </div>
+                <div class="service-card">
+                    <i class="fas fa-wave-square"></i>
+                    <h3>Motion & Beat Sync</h3>
+                    <p>Audio-reactive animations and seamless sync for immersive viewer experience.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Portfolio -->
+    <section id="portfolio">
+        <div class="container">
+            <h2 class="section-title">Recent Projects</h2>
+            <div class="portfolio-grid">
+                <div class="portfolio-item">
+                    <div class="video-container">
+                        <iframe src="https://www.instagram.com/reel/DJ9IQz4IRHn/embed" allowfullscreen></iframe>
+                    </div>
+                    <div class="portfolio-overlay">
+                        <h3>Cinematic Travel Reel</h3>
+                        <p>Scenic drone footage with fluid transitions and epic sound design.</p>
+                        <a href="https://www.instagram.com/reel/DJ9IQz4IRHn/" target="_blank">Watch on Instagram</a>
+                    </div>
+                </div>
+                <div class="portfolio-item">
+                    <div class="video-container">
+                        <iframe src="https://www.instagram.com/reel/DJ9IQz4IRHn/embed" allowfullscreen></iframe>
+                    </div>
+                    <div class="portfolio-overlay">
+                        <h3>Aesthetic Lifestyle Edit</h3>
+                        <p>Soft tones, smooth pacing, and brand-aligned storytelling.</p>
+                        <a href="https://www.instagram.com/reel/DJ9IQz4IRHn/" target="_blank">Watch on Instagram</a>
+                    </div>
+                </div>
+                <div class="portfolio-item">
+                    <div class="video-container">
+                        <iframe src="https://www.instagram.com/reel/DMnIrHKoYdD/embed" allowfullscreen></iframe>
+                    </div>
+                    <div class="portfolio-overlay">
+                        <h3>YouTube Shorts Style Edit</h3>
+                        <p>High-energy, beat-synced, and optimized for retention.</p>
+                        <a href="https://www.instagram.com/reel/DMnIrHKoYdD/" target="_blank">Watch on Instagram</a>
+                    </div>
+                </div>
+                <div class="portfolio-item">
+                    <div class="video-container">
+                        <iframe src="https://www.instagram.com/reel/DMQAHd-xEQq/embed" allowfullscreen></iframe>
+                    </div>
+                    <div class="portfolio-overlay">
+                        <h3>TikTok Viral Motion</h3>
+                        <p>Fast cuts, trendy effects, and motion graphics for maximum reach.</p>
+                        <a href="https://www.instagram.com/reel/DMQAHd-xEQq/" target="_blank">Watch on Instagram</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section id="testimonials">
+        <div class="container">
+            <h2 class="section-title">Client Testimonials</h2>
+            <div class="testimonials-grid">
+                <div class="testimonial-card">
+                    <p>"Ayan delivered a stunning cinematic reel that perfectly captured our brand. Fast, professional, and creative!"</p>
+                    <cite>— Sarah K., Travel Brand</cite>
+                </div>
+                <div class="testimonial-card">
+                    <p>"The color grading and beat-sync were spot-on. Our engagement skyrocketed after launch."</p>
+                    <cite>— Mike D., Marketing Agency</cite>
+                </div>
+                <div class="testimonial-card">
+                    <p>"Reliable, talented, and understands social algorithms. Will definitely work again!"</p>
+                    <cite>— Lisa M., Influencer</cite>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact -->
+    <section id="contact">
+        <div class="container">
+            <h2 class="section-title">Let’s Work Together</h2>
+            <form class="contact-form" action="send-mail.php" method="POST">
+    <input type="text" name="name" placeholder="Your Name" required>
+    <input type="email" name="email" placeholder="Your Email" required>
+    <textarea name="message" placeholder="Tell me about your project, vision, and goals..." required></textarea>
+
+    <!-- simple honeypot (bots fill it, we ignore) -->
+    <input type="text" name="_honey" style="display:none">
+
+    <button type="submit">Send Message</button>
+</form>
+
+<!-- Optional success message -->
+<div id="form-status" style="margin-top:1rem; text-align:center; font-weight:600; color:#0f0;"></div>
+
+            <div class="contact-links">
+                <a href="https://www.fiverr.com/ayan_as_edits" target="_blank">Hire on Fiverr</a>
+                <a href="https://youtube.com/@a_s_edits_029?si=Jl9aAs2Xxgb08XDM" target="_blank">YouTube Channel</a>
+                <a href="https://www.instagram.com/a_s_edits_029?igsh=Y2xlYWJ4emt3bGN4" target="_blank">Follow on Instagram</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>© 2025 AS Edits. All rights reserved.</p>
+            <div class="social-links">
+                <a href="https://www.instagram.com/a_s_edits_029?igsh=Y2xlYWJ4emt3bGN4" target="_blank"><i class="fab fa-instagram"></i></a>
+                <a href="https://youtube.com/@a_s_edits_029?si=Jl9aAs2Xxgb08XDM" target="_blank"><i class="fab fa-youtube"></i></a>
+                <a href="https://www.fiverr.com/ayan_as_edits" target="_blank"><i class="fab fa-fiverr"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile Menu
+        const mobileToggle = document.getElementById('mobileToggle');
+        const navLinks = document.getElementById('navLinks');
+        mobileToggle.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            const icon = mobileToggle.querySelector('i');
+            icon.classList.toggle('fa-bars');
+            icon.classList.toggle('fa-times');
+        });
+
+        // Active Nav on Scroll
+        window.addEventListener('scroll', () => {
+            let current = '';
+            document.querySelectorAll('section').forEach(section => {
+                const top = section.offsetTop - 100;
+                if (pageYOffset >= top) current = section.getAttribute('id');
+            });
+            document.querySelectorAll('.nav-links a').forEach(link => {
+                link.classList.toggle('active', link.getAttribute('href') === `#${current}`);
+            });
+        });
+
+        // Smooth Scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                window.scrollTo({ top: target.offsetTop - 80, behavior: 'smooth' });
+                if (navLinks.classList.contains('active')) {
+                    navLinks.classList.remove('active');
+                    mobileToggle.querySelector('i').classList.add('fa-bars');
+                    mobileToggle.querySelector('i').classList.remove('fa-times');
+                }
+            });
+        });
+    </script>
+<script>
+  // Show success message if ?sent=1 is in the URL
+  if (window.location.search.includes('sent=1')) {
+      document.getElementById('form-status').textContent = 'Thank you! Your message has been sent.';
+      // clear the URL without reloading
+      history.replaceState(null, '', '#contact');
+  }
+</script>
+</body>
+</html>
